@@ -1,37 +1,36 @@
 import React, { use } from 'react'
 import { NavLink } from 'react-router-dom'
 import '../assets/css/NavMenu.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext.jsx'
+import {toast} from 'react-toastify'
 
 
 
 const NavMenu = () => {
-    const[isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
-
- useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        setIsLoggedIn(true);
-    } else {
-        setIsLoggedIn(false);
-    }
- },[isLoggedIn]);
+    const {logout, isLoggedIn} = useContext(AuthContext);
+ 
+    
 
     const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
+      const loadingToast = toast.loading('Logging out...');
+      logout();
+    toast.update(loadingToast, { render: 'Logged out...', type: 'success', isLoading: false, autoClose: 3000 });
     navigate('/login');
-    window.location.reload(); // Reload the page to reflect the logout state
     }
 
   return (
     <nav className='nav-menu'>
-    <NavLink to="/" className="left"> Home</NavLink>
-    <NavLink to="/about" className="left"> About</NavLink>
-    <NavLink to="/contact" className="left"> Contact</NavLink>
-    {isLoggedIn ? (<button onClick={handleLogout}>LogOut</button>) : (<NavLink to="/login" className="login-link"><button>LogIn</button></NavLink>)}
+    <div className='nav-links'>
+       <NavLink to="/" className="left"> Home</NavLink>
+       <NavLink to="/about" className="left"> About</NavLink>
+       <NavLink to="/contact" className="left"> Contact</NavLink>
+    </div>
+    <div className='nav-auth'>
+        {isLoggedIn ? (<button onClick={handleLogout}>LogOut</button>) : (<NavLink to="/login" className="login-link"><button>LogIn</button></NavLink>)}
+    </div>
     </nav>
   )
 }

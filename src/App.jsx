@@ -8,15 +8,23 @@ import About from './components/About'
 import Contact from './components/Contact'
 import NavMenu from './components/NavMenu'
 import LogIn from './components/LogIn'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useLocation } from 'react-router-dom'
+
+function AppLayout() {
+  const location = useLocation();
+  
+  const authRoutes= ['/login'];
+  const isAuthRoute = authRoutes.includes(location.pathname);
 
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
 
   return (
     <>
-    <Router>
-      <NavMenu />
+      {!isAuthRoute && <NavMenu />}
       <div className="page-container">
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,10 +32,17 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<LogIn />} />
       </Routes>
+      <ToastContainer position='top-right' autoClose={3000}/>
       </div>
-    </Router>
     </>
   )
 }
 
+function App() {
+  return (
+    <Router>
+      <AppLayout />
+    </Router>
+  )
+}
 export default App
