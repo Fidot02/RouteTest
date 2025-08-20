@@ -8,6 +8,8 @@ import About from './components/About'
 import Contact from './components/Contact'
 import NavMenu from './components/NavMenu'
 import LogIn from './components/LogIn'
+import Register from './components/Register'
+import Users from './components/Users'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useLocation } from 'react-router-dom'
@@ -15,7 +17,7 @@ import { useLocation } from 'react-router-dom'
 function AppLayout() {
   const location = useLocation();
   
-  const authRoutes= ['/login'];
+  const authRoutes= ['/login', '/register'];
   const isAuthRoute = authRoutes.includes(location.pathname);
 
 
@@ -31,6 +33,8 @@ function AppLayout() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
       <ToastContainer position='top-right' autoClose={3000}/>
       </div>
