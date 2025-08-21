@@ -1,6 +1,7 @@
 import React, { use } from 'react'
 import axios from '../api/http'
 import { useEffect, useState} from 'react'
+import { Navigate } from 'react-router-dom'
 
 const Users = () => {
     const [users, setUsers] = useState([]);
